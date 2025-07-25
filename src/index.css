@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Kittu's Dreamscape - Celestial Peony Garden Design System */
+
+@layer base {
+  :root {
+    /* Celestial Peony Garden Color Palette */
+    --cloud-cream: 36 27% 97%;          /* #FBF8F3 - Warm off-white foundation */
+    --peony-petal: 355 50% 95%;         /* #F9EBEA - Delicate blushing pink */
+    --rose-gold: 349 25% 45%;           /* Better contrast elegant rose-gold */
+    --lilac-haze: 316 20% 91%;          /* #EAE4E9 - Serene muted lilac */
+    --liquid-sunlight: 48 96% 75%;      /* #FDECB6 - More contrasted shimmering gold */
+    
+    /* Core System Colors using Celestial Palette */
+    --background: var(--cloud-cream);
+    --foreground: var(--rose-gold);
+    
+    --card: var(--peony-petal);
+    --card-foreground: var(--rose-gold);
+    
+    --popover: var(--peony-petal);
+    --popover-foreground: var(--rose-gold);
+    
+    --primary: var(--rose-gold);
+    --primary-foreground: var(--cloud-cream);
+    
+    --secondary: var(--lilac-haze);
+    --secondary-foreground: var(--rose-gold);
+    
+    --muted: var(--lilac-haze);
+    --muted-foreground: var(--rose-gold);
+    
+    --accent: var(--liquid-sunlight);
+    --accent-foreground: var(--rose-gold);
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: var(--cloud-cream);
+    
+    --border: var(--lilac-haze);
+    --input: var(--peony-petal);
+    --ring: var(--liquid-sunlight);
+    
+    --radius: 1rem;
+    
+    /* Dreamscape-specific Design Tokens */
+    --shimmer-gold: var(--liquid-sunlight);
+    --gentle-pink: var(--peony-petal);
+    --romantic-text: var(--rose-gold);
+    --celestial-bg: var(--cloud-cream);
+    
+    /* Beautiful Gradients */
+    --gradient-celestial: linear-gradient(135deg, hsl(var(--cloud-cream)), hsl(var(--peony-petal)), hsl(var(--lilac-haze)));
+    --gradient-romantic: linear-gradient(45deg, hsl(var(--peony-petal)), hsl(var(--liquid-sunlight)));
+    --gradient-twilight: linear-gradient(180deg, hsl(var(--lilac-haze)), hsl(var(--cloud-cream)));
+    
+    /* Magical Shadows */
+    --shadow-soft: 0 8px 32px hsla(var(--rose-gold), 0.15);
+    --shadow-romantic: 0 16px 48px hsla(var(--peony-petal), 0.4);
+    --shadow-golden: 0 0 40px hsla(var(--liquid-sunlight), 0.5);
+    
+    /* Enhanced Smooth Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bloom: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.175);
+    --transition-shimmer: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-gentle: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-light;
+    font-family: 'Montserrat', sans-serif;
+    background: var(--gradient-celestial);
+    min-height: 100vh;
+  }
+  
+  /* Typography Classes */
+  .font-romantic {
+    font-family: 'Great Vibes', cursive;
+  }
+  
+  .font-elegant {
+    font-family: 'Montserrat', sans-serif;
+  }
+}
+
+@layer components {
+  /* Enhanced Celestial Garden Animation Classes */
+  .animate-bloom {
+    animation: bloom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.175) forwards;
+  }
+  
+  .animate-fade-bloom {
+    animation: fade-bloom 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  .animate-shimmer {
+    animation: shimmer 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite alternate;
+  }
+  
+  .animate-gentle-float {
+    animation: gentle-float 4s ease-in-out infinite;
+  }
+  
+  .animate-petal-drift {
+    animation: petal-drift 8s linear infinite;
+  }
+  
+  /* Enhanced Interaction Classes */
+  .hover-bloom {
+    transition: var(--transition-bloom);
+  }
+  
+  .hover-bloom:hover {
+    transform: scale(1.05);
+    filter: brightness(1.15);
+    box-shadow: var(--shadow-golden);
+  }
+  
+  .romantic-glow {
+    box-shadow: var(--shadow-romantic);
+    backdrop-filter: blur(12px);
+  }
+  
+  .liquid-gold {
+    background: var(--gradient-romantic);
+    box-shadow: var(--shadow-golden);
+  }
+  
+  /* Celestial Backgrounds */
+  .bg-celestial {
+    background: var(--gradient-celestial);
+  }
+  
+  .bg-romantic {
+    background: var(--gradient-romantic);
+  }
+  
+  .bg-twilight {
+    background: var(--gradient-twilight);
+  }
+  
+  /* Enhanced Text Variants */
+  .text-romantic {
+    color: hsl(var(--romantic-text));
+    text-shadow: 0 1px 2px hsla(var(--romantic-text), 0.1);
+  }
+  
+  .text-shimmer {
+    background: linear-gradient(45deg, hsl(var(--rose-gold)), hsl(var(--liquid-sunlight)));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: shimmer-text 3s ease-in-out infinite;
+    text-shadow: none;
+  }
+}
+
+@layer utilities {
+  /* Enhanced Keyframe Animations */
+  @keyframes bloom {
+    0% {
+      opacity: 0;
+      transform: scale(0.85) translateY(15px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  
+  @keyframes fade-bloom {
+    0% {
+      opacity: 0;
+      transform: scale(0.92);
+      filter: blur(3px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0px);
+    }
+  }
+  
+  @keyframes shimmer {
+    0% {
+      box-shadow: 0 0 20px hsla(var(--liquid-sunlight), 0.4);
+    }
+    100% {
+      box-shadow: 0 0 45px hsla(var(--liquid-sunlight), 0.7);
+    }
+  }
+  
+  @keyframes gentle-float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+  
+  @keyframes petal-drift {
+    0% {
+      transform: translateX(-100px) translateY(-100px) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100vw) translateY(100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes shimmer-text {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
