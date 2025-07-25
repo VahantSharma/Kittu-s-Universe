@@ -44,7 +44,7 @@ const allowedOrigins = [
   "https://localhost:3000",
   // Production - Update these with your actual domains
   process.env.FRONTEND_URL,
-  "https://dreamscape-kitkut-whispers.vercel.app",
+  "https://kittu-s-universe.vercel.app",
 ].filter(Boolean); // Remove undefined values
 
 // Middleware
