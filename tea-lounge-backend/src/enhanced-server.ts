@@ -3,9 +3,6 @@
  * Real-time learning, conflict resolution, and contextual response system
  */
 
-// Ensure Node.js types are loaded
-import "./types/node";
-
 import { GenerativeModel, GoogleGenerativeAI } from "@google/generative-ai";
 import bodyParser from "body-parser";
 import cors from "cors";
