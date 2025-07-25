@@ -1,0 +1,26 @@
+{
+  "learnedFacts": {
+    "personalPreferences": {
+      "favorite_food": "cheesecake"
+    },
+    "plans": {
+      "fact_1753394599547_1": "Kittu is planning to meet Vahant.",
+      "fact_1753394599547_2": "The meeting with Vahant is scheduled for July 26th."
+    },
+    "relationship": {
+      "fact_1753394599547_3": "Kittu hasn't met Vahant in 2 months."
+    }
+  },
+  "memoryStats": {
+    "totalFacts": 4,
+    "factsByCategory": {
+      "personalPreferences": 1,
+      "plans": 2,
+      "relationship": 1
+    },
+    "averageConfidence": 0.875,
+    "verifiedFacts": 4,
+    "recentlyLearned": 4
+  },
+  "lastSaved": "2025-07-24T22:03:20.561Z"
+}
