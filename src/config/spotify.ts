@@ -30,7 +30,7 @@ export const SPOTIFY_CONFIG = {
     }
 
     // Fallback for production
-    return "https://dreamscape-kitkut-whispers.vercel.app/callback";
+    return "https://kittu-s-universe.vercel.app/callback";
   })(),
   BACKEND_URL: (() => {
     // Use environment variable if available
@@ -47,7 +47,7 @@ export const SPOTIFY_CONFIG = {
     }
 
     // Production fallback
-    return "https://dreamscape-tea-lounge-backend.onrender.com";
+    return "https://kittu-s-universe.onrender.com";
   })(),
   SCOPES: [
     "streaming",

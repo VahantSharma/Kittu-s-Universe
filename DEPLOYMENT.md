@@ -33,10 +33,10 @@ This guide walks you through deploying your **Dreamscape Tea Lounge** applicatio
    SPOTIFY_CLIENT_ID=aac3b66236a04e61a09a888767949d40
    SPOTIFY_CLIENT_SECRET=your_spotify_client_secret_here
    GOOGLE_GEMINI_API_KEY=your_google_gemini_api_key_here
-   FRONTEND_URL=https://dreamscape-kitkut-whispers.vercel.app
+   FRONTEND_URL=https://kittu-s-universe.vercel.app
    ```
 
-5. **Note your backend URL**: Will be like `https://dreamscape-tea-lounge-backend.onrender.com`
+5. **Note your backend URL**: Will be like `https://kittu-s-universe.onrender.com`
 
 ### 2️⃣ **Deploy Frontend to Vercel**
 
@@ -55,8 +55,8 @@ This guide walks you through deploying your **Dreamscape Tea Lounge** applicatio
 
    ```env
    VITE_SPOTIFY_CLIENT_ID=aac3b66236a04e61a09a888767949d40
-   VITE_SPOTIFY_REDIRECT_URI=https://your-vercel-url.vercel.app/callback
-   VITE_BACKEND_URL=https://your-render-backend-url.onrender.com
+   VITE_SPOTIFY_REDIRECT_URI=https://kittu-s-universe.vercel.app/callback
+   VITE_BACKEND_URL=https://kittu-s-universe.onrender.com
    ```
 
 5. **Deploy**: Click "Deploy" - Vercel will automatically use the optimized settings from `vercel.json`
@@ -66,7 +66,7 @@ This guide walks you through deploying your **Dreamscape Tea Lounge** applicatio
 1. Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
 2. Open your app settings
 3. **Add Redirect URIs**:
-   - `https://your-vercel-url.vercel.app/callback`
+   - `https://kittu-s-universe.vercel.app/callback`
    - Keep your localhost URI for development: `https://localhost:3000/callback`
 
 ### 4️⃣ **Update Environment Variables**
@@ -75,11 +75,11 @@ After deployment, update your `.env.production` file with actual URLs:
 
 ```env
 # Frontend URLs (use in Vercel)
-VITE_SPOTIFY_REDIRECT_URI=https://dreamscape-kitkut-whispers.vercel.app/callback
-VITE_BACKEND_URL=https://dreamscape-tea-lounge-backend.onrender.com
+VITE_SPOTIFY_REDIRECT_URI=https://kittu-s-universe.vercel.app/callback
+VITE_BACKEND_URL=https://kittu-s-universe.onrender.com
 
 # Backend URLs (use in Render)
-FRONTEND_URL=https://dreamscape-kitkut-whispers.vercel.app
+FRONTEND_URL=https://kittu-s-universe.vercel.app
 ```
 
 ## ✅ Testing Your Deployment
@@ -123,9 +123,9 @@ FRONTEND_URL=https://dreamscape-kitkut-whispers.vercel.app
 
 Once deployed, update these placeholders:
 
-- **Frontend**: `https://dreamscape-kitkut-whispers.vercel.app`
-- **Backend**: `https://dreamscape-tea-lounge-backend.onrender.com`
-- **Spotify Redirect**: `https://dreamscape-kitkut-whispers.vercel.app/callback`
+- **Frontend**: `https://kittu-s-universe.vercel.app`
+- **Backend**: `https://kittu-s-universe.onrender.com`
+- **Spotify Redirect**: `https://kittu-s-universe.vercel.app/callback`
 
 ---
 
