@@ -395,7 +395,11 @@ export const MusicProvider: React.FC<MusicProviderProps> = ({ children }) => {
         return;
       }
 
-      const response = await fetch(`/api/spotify/refresh`, {
+      // Use the configured backend URL instead of relative path
+      const refreshUrl = `${SPOTIFY_CONFIG.BACKEND_URL}/api/spotify/refresh`;
+      console.log("🎵 Making token refresh request to:", refreshUrl);
+
+      const response = await fetch(refreshUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -458,7 +462,11 @@ export const MusicProvider: React.FC<MusicProviderProps> = ({ children }) => {
         return;
       }
 
-      const response = await fetch(`/api/spotify/token`, {
+      // Use the configured backend URL instead of relative path
+      const tokenUrl = `${SPOTIFY_CONFIG.BACKEND_URL}/api/spotify/token`;
+      console.log("🎵 Making token exchange request to:", tokenUrl);
+
+      const response = await fetch(tokenUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
