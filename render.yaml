@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: dreamscape-tea-lounge-backend
+    runtime: node
+    plan: free
+    region: oregon
+    repo: https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+    rootDir: ./tea-lounge-backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: SPOTIFY_CLIENT_ID
+        value: aac3b66236a04e61a09a888767949d40
+      - key: SPOTIFY_CLIENT_SECRET
+        sync: false # Set in Render dashboard for security
+      - key: FRONTEND_URL
+        sync: false # Will be your Vercel URL
+      - key: GEMINI_API_KEY
+        sync: false # Set in Render dashboard for security
+    autoDeploy: true
+    branch: main
