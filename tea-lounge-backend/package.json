@@ -4,11 +4,16 @@
   "description": "AI-powered backend for Gigi-Kittu Tea Lounge using Gemini 2.5 Pro",
   "main": "dist/enhanced-server.js",
   "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
     "start": "node dist/enhanced-server.js",
     "dev": "nodemon src/enhanced-server.ts",
     "build": "tsc",
-    "build:watch": "tsc -w"
+    "build:watch": "tsc -w",
+    "build:prod": "tsc --removeComments --sourceMap false"
   },
   "keywords": [
     "ai",

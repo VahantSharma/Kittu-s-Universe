@@ -48,7 +48,6 @@ const allowedOrigins = [
   // Production - Update these with your actual domains
   process.env.FRONTEND_URL,
   "https://dreamscape-kitkut-whispers.vercel.app",
-  "https://your-custom-domain.com",
 ].filter(Boolean); // Remove undefined values
 
 // Middleware
@@ -97,17 +96,24 @@ let memoryBank: IntelligentMemoryBank;
 // Initialize services
 const initializeServices = async (): Promise<void> => {
   try {
-    const apiKey = process.env.GOOGLE_GEMINI_API_KEY;
+    // Try multiple environment variable names for Google Gemini API key
+    const apiKey =
+      process.env.GOOGLE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
     if (!apiKey) {
+      console.error("❌ Missing required environment variables:");
+      console.error("   - GOOGLE_GEMINI_API_KEY or GEMINI_API_KEY is required");
+      console.error("   - Please check your environment configuration");
       throw new Error(
-        "GOOGLE_GEMINI_API_KEY not found in environment variables"
+        "GOOGLE_GEMINI_API_KEY or GEMINI_API_KEY not found in environment variables"
       );
     }
 
+    console.log("🔧 Initializing AI model with Gemini API...");
     // Initialize AI model
     const genAI = new GoogleGenerativeAI(apiKey);
     model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
+    console.log("🧠 Initializing intelligent modules...");
     // Initialize intelligent modules
     emotionDetector = new EmotionDetector(model);
     sessionManager = new ConversationSessionManager();
@@ -126,7 +132,37 @@ const initializeServices = async (): Promise<void> => {
     console.log("✅ Gigi AI intelligent services initialized successfully");
   } catch (error) {
     console.error("❌ Failed to initialize services:", error);
-    process.exit(1);
+    console.error("   Current environment variables:");
+    console.error("   - NODE_ENV:", process.env.NODE_ENV);
+    console.error("   - PORT:", process.env.PORT);
+    console.error("   - FRONTEND_URL:", process.env.FRONTEND_URL);
+    console.error(
+      "   - GOOGLE_GEMINI_API_KEY:",
+      process.env.GOOGLE_GEMINI_API_KEY ? "SET" : "NOT SET"
+    );
+    console.error(
+      "   - GEMINI_API_KEY:",
+      process.env.GEMINI_API_KEY ? "SET" : "NOT SET"
+    );
+    console.error(
+      "   - SPOTIFY_CLIENT_ID:",
+      process.env.SPOTIFY_CLIENT_ID ? "SET" : "NOT SET"
+    );
+    console.error(
+      "   - SPOTIFY_CLIENT_SECRET:",
+      process.env.SPOTIFY_CLIENT_SECRET ? "SET" : "NOT SET"
+    );
+
+    // In production, exit with error; in development, show more helpful message
+    if (process.env.NODE_ENV === "production") {
+      process.exit(1);
+    } else {
+      console.error(
+        "   💡 For development, make sure your .env file in tea-lounge-backend contains:"
+      );
+      console.error("      GOOGLE_GEMINI_API_KEY=your_api_key_here");
+      process.exit(1);
+    }
   }
 };
 

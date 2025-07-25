@@ -19,6 +19,16 @@ dist-ssr
 .env.test.local
 .env.production.local
 .env*
+# Keep the example file
+!.env.example
+
+# API Keys and Secrets (additional security)
+*secret*
+*key*
+*token*
+*.pem
+*.p12
+*.pfx
 
 # Editor directories and files
 .vscode/*
@@ -37,3 +47,12 @@ dist-ssr
 
 # OS generated files
 Thumbs.db
+
+# Backend specific
+tea-lounge-backend/.env
+tea-lounge-backend/dist/*
+tea-lounge-backend/node_modules
+
+# Build artifacts
+build/
+*.tsbuildinfo

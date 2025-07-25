@@ -11,20 +11,44 @@ export const SPOTIFY_CONFIG = {
 
     const hostname = window.location.hostname;
     const port = window.location.port;
+    const protocol = window.location.protocol;
 
     console.log("🎵 Spotify Config - Current location:", {
       hostname,
       port,
-      protocol: window.location.protocol,
+      protocol,
     });
 
-    // For localhost development, always use HTTPS on port 3000
+    // For localhost development
     if (hostname === "localhost" || hostname === "127.0.0.1") {
-      return `https://localhost:3000/callback`;
+      return `${protocol}//${hostname}:3000/callback`;
     }
-    return "https://kittus-universe.vercel.app/callback";
+
+    // For Vercel deployment
+    if (hostname.includes("vercel.app")) {
+      return `${protocol}//${hostname}/callback`;
+    }
+
+    // Fallback for production
+    return "https://dreamscape-kitkut-whispers.vercel.app/callback";
   })(),
-  BACKEND_URL: import.meta.env.VITE_BACKEND_URL || "https://localhost:3000",
+  BACKEND_URL: (() => {
+    // Use environment variable if available
+    if (import.meta.env.VITE_BACKEND_URL) {
+      return import.meta.env.VITE_BACKEND_URL;
+    }
+
+    // Development fallback - use proxy
+    if (
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1"
+    ) {
+      return "/api";
+    }
+
+    // Production fallback
+    return "https://dreamscape-tea-lounge-backend.onrender.com";
+  })(),
   SCOPES: [
     "streaming",
     "user-read-email",

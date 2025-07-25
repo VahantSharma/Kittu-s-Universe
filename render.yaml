@@ -4,9 +4,12 @@ services:
     runtime: node
     plan: free
     region: oregon
-    repo: https://github.com/VahantSharma/Kittu-s-Universe
+    buildFilter:
+      paths:
+        - tea-lounge-backend/**
+    repo: https://github.com/VahantSharma/Kittu-s-Universe.git
     rootDir: ./tea-lounge-backend
-    buildCommand: npm install && npm run build
+    buildCommand: npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
@@ -19,8 +22,10 @@ services:
       - key: SPOTIFY_CLIENT_SECRET
         sync: false # Set in Render dashboard for security
       - key: FRONTEND_URL
-        sync: false # Will be your Vercel URL
-      - key: GEMINI_API_KEY
+        value: https://dreamscape-kitkut-whispers.vercel.app
+      - key: GOOGLE_GEMINI_API_KEY
         sync: false # Set in Render dashboard for security
+      - key: GEMINI_API_KEY
+        sync: false # Alias for backward compatibility
     autoDeploy: true
     branch: main
