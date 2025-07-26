@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: dreamscape-tea-lounge-backend
+    name: kittu-s-universe-backend
     runtime: node
     plan: free
     region: oregon
@@ -11,7 +11,7 @@ services:
     rootDir: ./tea-lounge-backend
     buildCommand: npm ci --include=dev && npm run build
     startCommand: npm start
-    healthCheckPath: /api/health
+    healthCheckPath: /health
     envVars:
       - key: NODE_ENV
         value: production
@@ -22,7 +22,7 @@ services:
       - key: SPOTIFY_CLIENT_SECRET
         sync: false # Set in Render dashboard for security
       - key: FRONTEND_URL
-        value: https://dreamscape-kitkut-whispers.vercel.app
+        value: https://kittu-s-universe.vercel.app
       - key: GOOGLE_GEMINI_API_KEY
         sync: false # Set in Render dashboard for security
       - key: GEMINI_API_KEY
