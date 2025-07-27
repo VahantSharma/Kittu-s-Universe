@@ -68,6 +68,32 @@ app.use(
 );
 app.use(bodyParser.json());
 
+// Root endpoint
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({
+    message: "🌸 Kittu's Universe - Tea Lounge Backend API",
+    version: "1.0.0",
+    status: "running",
+    endpoints: {
+      health: "/health or /api/health",
+      chat: "/api/gigi-chat",
+      spotify: "/api/spotify/*",
+      knowledge: "/api/knowledge"
+    },
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Health check endpoint (both with and without /api prefix)
+app.get("/health", (req: Request, res: Response) => {
+  res.status(200).json({
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || "development",
+  });
+});
+
 // Health check endpoint for Render
 app.get("/api/health", (req: Request, res: Response) => {
   res.status(200).json({
