@@ -39,8 +39,9 @@ export const validateSpotifyConfig = () => {
       ),
       currentLocationIsHttps: window.location.protocol === "https:",
       portMatches:
-        SPOTIFY_CONFIG.REDIRECT_URI.includes(":3000") ||
-        window.location.port === "3000",
+        SPOTIFY_CONFIG.REDIRECT_URI.includes(":5173") ||
+        window.location.port === "5173" ||
+        (window.location.hostname.includes("vercel.app") && !window.location.port),
     };
 
     console.log("✅ Validation Checks:", checks);

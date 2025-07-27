@@ -19,9 +19,9 @@ export const SPOTIFY_CONFIG = {
       protocol,
     });
 
-    // For localhost development
+    // For localhost development (Vite default port is 5173)
     if (hostname === "localhost" || hostname === "127.0.0.1") {
-      return `${protocol}//${hostname}:3000/callback`;
+      return `${protocol}//${hostname}:5173/callback`;
     }
 
     // For Vercel deployment

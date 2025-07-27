@@ -78,9 +78,9 @@ app.get("/", (req: Request, res: Response) => {
       health: "/health or /api/health",
       chat: "/api/gigi-chat",
       spotify: "/api/spotify/*",
-      knowledge: "/api/knowledge"
+      knowledge: "/api/knowledge",
     },
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
