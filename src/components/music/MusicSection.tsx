@@ -1,74 +1,94 @@
-import React, { useState } from 'react';
-import { Music, Search, Headphones } from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { SpotifyLogin } from './SpotifyLogin';
-import { MusicSearch } from './MusicSearch';
-import { SpotifyDiagnostics } from './SpotifyDiagnostics';
-import { useMusicContext } from '@/contexts/MusicContext';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { useMusicContext } from "@/contexts/MusicContext";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Headphones, Music, Search } from "lucide-react";
+import React, { useState } from "react";
+import { MusicSearch } from "./MusicSearch";
+import { SpotifyDiagnostics } from "./SpotifyDiagnostics";
+import { SpotifyLogin } from "./SpotifyLogin";
 
 export const MusicSection: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'login' | 'search'>('login');
+  const [activeTab, setActiveTab] = useState<"login" | "search">("login");
   const { isAuthenticated, accessToken, player, deviceId } = useMusicContext();
+  const isMobile = useIsMobile();
 
   React.useEffect(() => {
     if (isAuthenticated) {
-      setActiveTab('search');
+      setActiveTab("search");
     }
   }, [isAuthenticated]);
 
   return (
-    <Card className="p-6 bg-card/20 backdrop-blur-sm border-primary/20">
-      <div className="space-y-6">
+    <Card
+      className={`${
+        isMobile ? "p-3" : "p-6"
+      } bg-card/20 backdrop-blur-sm border-primary/20`}
+    >
+      <div className={`space-y-${isMobile ? "4" : "6"}`}>
         {/* Header */}
         <div className="text-center space-y-2">
           <div className="flex justify-center">
             <div className="relative">
-              <Headphones className="w-8 h-8 text-primary" />
+              <Headphones
+                className={`${isMobile ? "w-6 h-6" : "w-8 h-8"} text-primary`}
+              />
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full animate-pulse" />
             </div>
           </div>
-          <h3 className="text-xl font-semibold text-foreground font-serif">
+          <h3
+            className={`${
+              isMobile ? "text-lg" : "text-xl"
+            } font-semibold text-foreground font-serif`}
+          >
             Music for Your Journey
           </h3>
-          <p className="text-sm text-muted-foreground">
+          <p
+            className={`${
+              isMobile ? "text-xs" : "text-sm"
+            } text-muted-foreground`}
+          >
             Enhance your dreamscape experience with beautiful melodies
           </p>
         </div>
 
         {/* Tabs */}
-        <div className="flex space-x-2 bg-background/20 p-1 rounded-lg">
+        <div className="flex space-x-1 sm:space-x-2 bg-background/20 p-1 rounded-lg">
           <Button
-            variant={activeTab === 'login' ? 'default' : 'ghost'}
-            size="sm"
-            onClick={() => setActiveTab('login')}
-            className="flex-1"
+            variant={activeTab === "login" ? "default" : "ghost"}
+            size={isMobile ? "sm" : "sm"}
+            onClick={() => setActiveTab("login")}
+            className="flex-1 min-h-[44px]"
           >
-            <Music className="w-4 h-4 mr-2" />
-            Connect
+            <Music
+              className={`${isMobile ? "w-3 h-3" : "w-4 h-4"} mr-1 sm:mr-2`}
+            />
+            <span className={isMobile ? "text-xs" : "text-sm"}>Connect</span>
           </Button>
           <Button
-            variant={activeTab === 'search' ? 'default' : 'ghost'}
-            size="sm"
-            onClick={() => setActiveTab('search')}
-            className="flex-1"
+            variant={activeTab === "search" ? "default" : "ghost"}
+            size={isMobile ? "sm" : "sm"}
+            onClick={() => setActiveTab("search")}
+            className="flex-1 min-h-[44px]"
             disabled={!isAuthenticated}
           >
-            <Search className="w-4 h-4 mr-2" />
-            Search
+            <Search
+              className={`${isMobile ? "w-3 h-3" : "w-4 h-4"} mr-1 sm:mr-2`}
+            />
+            <span className={isMobile ? "text-xs" : "text-sm"}>Search</span>
           </Button>
         </div>
 
         {/* Content */}
-        <div className="min-h-[200px]">
-          <SpotifyDiagnostics 
+        <div className={`${isMobile ? "min-h-[180px]" : "min-h-[200px]"}`}>
+          <SpotifyDiagnostics
             isAuthenticated={isAuthenticated}
             accessToken={accessToken}
             player={player}
             deviceId={deviceId}
           />
-          {activeTab === 'login' && <SpotifyLogin />}
-          {activeTab === 'search' && <MusicSearch />}
+          {activeTab === "login" && <SpotifyLogin />}
+          {activeTab === "search" && <MusicSearch />}
         </div>
       </div>
     </Card>

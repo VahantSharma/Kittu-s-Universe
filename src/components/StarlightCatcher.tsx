@@ -1,10 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Home, Star, RotateCcw } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Home, RotateCcw, Star } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 interface StarlightCatcherProps {
-  onNavigate: (section: 'home' | 'chronicles' | 'starlight' | 'tealounge') => void;
+  onNavigate: (
+    section: "home" | "chronicles" | "starlight" | "tealounge"
+  ) => void;
 }
 
 interface StarPosition {
@@ -21,7 +24,7 @@ interface DuduPosition {
 
 const loveMessages = [
   "My Motu is a gaming pro! ⭐",
-  "Nobody shines brighter than my Kit-kut! ✨", 
+  "Nobody shines brighter than my Kit-kut! ✨",
   "I love you, my sweet Bebu 💕",
   "You're collecting stars just like you collect hearts... effortlessly ⭐",
   "Go, Motu, go! You're a superstar! 🌟",
@@ -49,11 +52,14 @@ const loveMessages = [
   "Motu, you're the symphony that makes my heart sing! 🌟",
   "Kit-kut, you turn ordinary moments into fairy tales! 💫",
   "My beloved Bebu, you're the light that guides my soul! ⭐",
-  "Motu, watching you is like witnessing magic being born! 💕"
+  "Motu, watching you is like witnessing magic being born! 💕",
 ];
 
 export const StarlightCatcher = ({ onNavigate }: StarlightCatcherProps) => {
-  const [duduPosition, setDuduPosition] = useState<DuduPosition>({ x: 50, y: 50 });
+  const [duduPosition, setDuduPosition] = useState<DuduPosition>({
+    x: 50,
+    y: 50,
+  });
   const [stars, setStars] = useState<StarPosition[]>([]);
   const [score, setScore] = useState(0);
   const [showMessage, setShowMessage] = useState<string | null>(null);
@@ -61,29 +67,30 @@ export const StarlightCatcher = ({ onNavigate }: StarlightCatcherProps) => {
   const gameAreaRef = useRef<HTMLDivElement>(null);
   const targetPositionRef = useRef<DuduPosition>({ x: 50, y: 50 });
   const animationFrameRef = useRef<number>();
+  const isMobile = useIsMobile();
 
   // Smooth movement animation
   useEffect(() => {
     const smoothMove = () => {
-      setDuduPosition(current => {
+      setDuduPosition((current) => {
         const target = targetPositionRef.current;
         const dx = target.x - current.x;
         const dy = target.y - current.y;
-        
+
         // Lerp for smooth movement
         const lerp = 0.1;
         return {
           x: current.x + dx * lerp,
-          y: current.y + dy * lerp
+          y: current.y + dy * lerp,
         };
       });
       animationFrameRef.current = requestAnimationFrame(smoothMove);
     };
-    
+
     if (gameStarted) {
       animationFrameRef.current = requestAnimationFrame(smoothMove);
     }
-    
+
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
@@ -94,20 +101,20 @@ export const StarlightCatcher = ({ onNavigate }: StarlightCatcherProps) => {
   // Generate stars
   useEffect(() => {
     if (!gameStarted) return;
-    
+
     const generateStar = () => {
       const newStar: StarPosition = {
         x: Math.random() * 80 + 10, // Keep stars away from edges
         y: Math.random() * 80 + 10,
         id: Date.now() + Math.random(),
-        collected: false
+        collected: false,
       };
-      
-      setStars(current => [...current, newStar]);
+
+      setStars((current) => [...current, newStar]);
     };
 
     const interval = setInterval(generateStar, 2000);
-    
+
     // Generate initial stars
     for (let i = 0; i < 3; i++) {
       setTimeout(generateStar, i * 500);
@@ -119,42 +126,65 @@ export const StarlightCatcher = ({ onNavigate }: StarlightCatcherProps) => {
   // Handle mouse movement
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!gameAreaRef.current || !gameStarted) return;
-    
+
     const rect = gameAreaRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
-    
-    targetPositionRef.current = { 
-      x: Math.max(5, Math.min(95, x)), 
-      y: Math.max(5, Math.min(95, y)) 
+
+    targetPositionRef.current = {
+      x: Math.max(5, Math.min(95, x)),
+      y: Math.max(5, Math.min(95, y)),
     };
+  };
+
+  // Handle touch movement for mobile
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (!gameAreaRef.current || !gameStarted || e.touches.length === 0) return;
+
+    const touch = e.touches[0];
+    const rect = gameAreaRef.current.getBoundingClientRect();
+    const x = ((touch.clientX - rect.left) / rect.width) * 100;
+    const y = ((touch.clientY - rect.top) / rect.height) * 100;
+
+    targetPositionRef.current = {
+      x: Math.max(5, Math.min(95, x)),
+      y: Math.max(5, Math.min(95, y)),
+    };
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    handleTouchMove(e);
   };
 
   // Check star collection
   useEffect(() => {
-    stars.forEach(star => {
+    stars.forEach((star) => {
       if (star.collected) return;
-      
+
       const distance = Math.sqrt(
-        Math.pow(duduPosition.x - star.x, 2) + Math.pow(duduPosition.y - star.y, 2)
+        Math.pow(duduPosition.x - star.x, 2) +
+          Math.pow(duduPosition.y - star.y, 2)
       );
-      
+
       if (distance < 8) {
-        setStars(current => 
-          current.map(s => s.id === star.id ? { ...s, collected: true } : s)
+        setStars((current) =>
+          current.map((s) => (s.id === star.id ? { ...s, collected: true } : s))
         );
-        setScore(current => current + 1);
-        
+        setScore((current) => current + 1);
+
         // Show love message every 5 stars
         if ((score + 1) % 5 === 0) {
-          const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+          const randomMessage =
+            loveMessages[Math.floor(Math.random() * loveMessages.length)];
           setShowMessage(randomMessage);
           setTimeout(() => setShowMessage(null), 3000);
         }
-        
+
         // Remove collected star after animation
         setTimeout(() => {
-          setStars(current => current.filter(s => s.id !== star.id));
+          setStars((current) => current.filter((s) => s.id !== star.id));
         }, 500);
       }
     });
@@ -190,15 +220,19 @@ export const StarlightCatcher = ({ onNavigate }: StarlightCatcherProps) => {
                 Dance among the stars, my beautiful Bubu
               </p>
             </div>
-            
+
             <div className="space-y-6 text-romantic font-elegant">
-              <p>Guide your character with your mouse to collect falling stars.</p>
+              <p>
+                {isMobile
+                  ? "Guide your character by touching the screen to collect falling stars."
+                  : "Guide your character with your mouse to collect falling stars."}
+              </p>
               <p>Every 5 stars brings you a special message of love! ✨</p>
             </div>
-            
+
             <div className="flex gap-4 justify-center">
               <Button
-                onClick={() => onNavigate('home')}
+                onClick={() => onNavigate("home")}
                 variant="ghost"
                 className="text-romantic hover:bg-secondary/50 border-0 transition-all duration-300"
               >
@@ -224,16 +258,17 @@ export const StarlightCatcher = ({ onNavigate }: StarlightCatcherProps) => {
       <div className="flex justify-between items-center mb-6">
         <Button
           variant="ghost"
-          onClick={() => onNavigate('home')}
+          onClick={() => onNavigate("home")}
           className="text-romantic hover:bg-secondary/50 border-0 transition-all duration-300"
         >
           <Home className="w-4 h-4 mr-2" />
           Garden
         </Button>
-        
+
         <div className="flex items-center gap-6">
           <div className="text-romantic font-elegant text-xl">
-            Stars: <span className="font-romantic text-2xl text-accent">{score}</span>
+            Stars:{" "}
+            <span className="font-romantic text-2xl text-accent">{score}</span>
           </div>
           <Button
             onClick={resetGame}
@@ -247,10 +282,15 @@ export const StarlightCatcher = ({ onNavigate }: StarlightCatcherProps) => {
       </div>
 
       {/* Game Area */}
-      <div 
+      <div
         ref={gameAreaRef}
-        className="relative w-full h-[600px] bg-twilight rounded-3xl romantic-glow cursor-none overflow-hidden"
+        className={`relative w-full h-[600px] bg-twilight rounded-3xl romantic-glow overflow-hidden ${
+          isMobile ? "cursor-auto" : "cursor-none"
+        }`}
         onMouseMove={handleMouseMove}
+        onTouchMove={handleTouchMove}
+        onTouchStart={handleTouchStart}
+        style={{ touchAction: "none" }} // Prevent scrolling on touch
       >
         {/* Dudu Character */}
         <div
@@ -258,7 +298,7 @@ export const StarlightCatcher = ({ onNavigate }: StarlightCatcherProps) => {
           style={{
             left: `${duduPosition.x}%`,
             top: `${duduPosition.y}%`,
-            transform: 'translate(-50%, -50%)'
+            transform: "translate(-50%, -50%)",
           }}
         >
           <div className="w-full h-full bg-gradient-to-br from-accent to-primary rounded-full animate-gentle-float shadow-lg">
@@ -269,16 +309,16 @@ export const StarlightCatcher = ({ onNavigate }: StarlightCatcherProps) => {
         </div>
 
         {/* Stars */}
-        {stars.map(star => (
+        {stars.map((star) => (
           <div
             key={star.id}
             className={`absolute w-8 h-8 transition-all duration-500 ${
-              star.collected ? 'scale-150 opacity-0' : 'scale-100 opacity-100'
+              star.collected ? "scale-150 opacity-0" : "scale-100 opacity-100"
             }`}
             style={{
               left: `${star.x}%`,
               top: `${star.y}%`,
-              transform: 'translate(-50%, -50%)'
+              transform: "translate(-50%, -50%)",
             }}
           >
             <Star className="w-full h-full text-accent animate-shimmer fill-current" />
@@ -300,7 +340,9 @@ export const StarlightCatcher = ({ onNavigate }: StarlightCatcherProps) => {
       {/* Instructions */}
       <div className="text-center mt-6">
         <p className="font-elegant text-romantic opacity-70">
-          Move your mouse to guide your character • Collect stars to unlock love messages
+          {isMobile
+            ? "Touch and drag to guide your character • Collect stars to unlock love messages"
+            : "Move your mouse to guide your character • Collect stars to unlock love messages"}
         </p>
       </div>
     </div>

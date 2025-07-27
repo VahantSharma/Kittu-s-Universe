@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useEffect, useRef } from "react";
 
 interface Particle {
   x: number;
@@ -9,19 +10,20 @@ interface Particle {
   opacity: number;
   rotation: number;
   rotationSpeed: number;
-  type: 'petal' | 'sparkle';
+  type: "petal" | "sparkle";
 }
 
 export const ParticleSystem = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number>();
   const particlesRef = useRef<Particle[]>([]);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     // Set canvas size
@@ -30,12 +32,13 @@ export const ParticleSystem = () => {
       canvas.height = window.innerHeight;
     };
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener("resize", resizeCanvas);
 
-    // Initialize particles
+    // Initialize particles with performance optimization for mobile
     const initParticles = () => {
       particlesRef.current = [];
-      for (let i = 0; i < 15; i++) {
+      const particleCount = isMobile ? 8 : 15; // Fewer particles on mobile
+      for (let i = 0; i < particleCount; i++) {
         particlesRef.current.push(createParticle());
       }
     };
@@ -43,13 +46,13 @@ export const ParticleSystem = () => {
     const createParticle = (): Particle => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      size: Math.random() * 8 + 4,
-      speedX: (Math.random() - 0.5) * 0.5,
-      speedY: Math.random() * 0.3 + 0.1,
+      size: Math.random() * (isMobile ? 6 : 8) + (isMobile ? 3 : 4), // Smaller on mobile
+      speedX: (Math.random() - 0.5) * (isMobile ? 0.3 : 0.5),
+      speedY: Math.random() * (isMobile ? 0.2 : 0.3) + 0.1,
       opacity: Math.random() * 0.6 + 0.2,
       rotation: Math.random() * Math.PI * 2,
-      rotationSpeed: (Math.random() - 0.5) * 0.02,
-      type: Math.random() > 0.7 ? 'sparkle' : 'petal'
+      rotationSpeed: (Math.random() - 0.5) * (isMobile ? 0.01 : 0.02),
+      type: Math.random() > 0.7 ? "sparkle" : "petal",
     });
 
     const drawPetal = (particle: Particle) => {
@@ -57,13 +60,13 @@ export const ParticleSystem = () => {
       ctx.translate(particle.x, particle.y);
       ctx.rotate(particle.rotation);
       ctx.globalAlpha = particle.opacity;
-      
+
       // Create petal shape
       ctx.fillStyle = `hsl(355, 50%, 95%)`;
       ctx.beginPath();
       ctx.ellipse(0, 0, particle.size, particle.size * 0.6, 0, 0, Math.PI * 2);
       ctx.fill();
-      
+
       ctx.restore();
     };
 
@@ -72,13 +75,13 @@ export const ParticleSystem = () => {
       ctx.translate(particle.x, particle.y);
       ctx.rotate(particle.rotation);
       ctx.globalAlpha = particle.opacity;
-      
+
       // Create sparkle
       ctx.fillStyle = `hsl(48, 96%, 85%)`;
       ctx.beginPath();
       ctx.arc(0, 0, particle.size * 0.3, 0, Math.PI * 2);
       ctx.fill();
-      
+
       // Add sparkle rays
       ctx.strokeStyle = `hsl(48, 96%, 85%)`;
       ctx.lineWidth = 1;
@@ -88,33 +91,37 @@ export const ParticleSystem = () => {
       ctx.moveTo(0, -particle.size);
       ctx.lineTo(0, particle.size);
       ctx.stroke();
-      
+
       ctx.restore();
     };
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
       particlesRef.current.forEach((particle, index) => {
         // Update position
         particle.x += particle.speedX;
         particle.y += particle.speedY;
         particle.rotation += particle.rotationSpeed;
-        
+
         // Reset particle if it goes off screen
-        if (particle.y > canvas.height + 50 || particle.x > canvas.width + 50 || particle.x < -50) {
+        if (
+          particle.y > canvas.height + 50 ||
+          particle.x > canvas.width + 50 ||
+          particle.x < -50
+        ) {
           particlesRef.current[index] = createParticle();
           particlesRef.current[index].y = -50;
         }
-        
+
         // Draw particle
-        if (particle.type === 'petal') {
+        if (particle.type === "petal") {
           drawPetal(particle);
         } else {
           drawSparkle(particle);
         }
       });
-      
+
       animationFrameRef.current = requestAnimationFrame(animate);
     };
 
@@ -122,18 +129,18 @@ export const ParticleSystem = () => {
     animate();
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener("resize", resizeCanvas);
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, []);
+  }, [isMobile]); // Added isMobile dependency
 
   return (
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-10"
-      style={{ mixBlendMode: 'multiply' }}
+      style={{ mixBlendMode: "multiply" }}
     />
   );
 };

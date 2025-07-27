@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { useMusicContext } from "@/contexts/MusicContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Pause, Play, SkipBack, SkipForward, Volume2, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
@@ -20,6 +21,7 @@ export const MusicPlayer: React.FC = () => {
 
   const [localVolume, setLocalVolume] = useState([50]);
   const [isExpanded, setIsExpanded] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setLocalVolume([playbackState.volume * 100]);
@@ -51,10 +53,16 @@ export const MusicPlayer: React.FC = () => {
   }
 
   return (
-    <Card className="fixed bottom-4 right-4 z-50 bg-card/95 backdrop-blur-md border-primary/30 shadow-2xl">
-      <div className="p-3">
+    <Card
+      className={`fixed z-50 bg-card/95 backdrop-blur-md border-primary/30 shadow-2xl transition-all duration-300 ${
+        isMobile
+          ? "bottom-2 left-2 right-2 mx-auto max-w-sm"
+          : "bottom-4 right-4 w-80"
+      }`}
+    >
+      <div className={`${isMobile ? "p-2" : "p-3"}`}>
         {/* Compact View */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2 sm:space-x-3">
           {/* Album Art */}
           <div
             className="relative flex-shrink-0 cursor-pointer"
@@ -66,7 +74,9 @@ export const MusicPlayer: React.FC = () => {
                 playbackState.currentTrack.album.images[0]?.url
               }
               alt={playbackState.currentTrack.album.name}
-              className="w-12 h-12 rounded-md object-cover"
+              className={`${
+                isMobile ? "w-10 h-10" : "w-12 h-12"
+              } rounded-md object-cover`}
             />
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-background/30 rounded-b-md overflow-hidden">
               <div
@@ -78,10 +88,18 @@ export const MusicPlayer: React.FC = () => {
 
           {/* Track Info */}
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-foreground truncate">
+            <p
+              className={`${
+                isMobile ? "text-xs" : "text-sm"
+              } font-medium text-foreground truncate`}
+            >
               {playbackState.currentTrack.name}
             </p>
-            <p className="text-xs text-muted-foreground truncate">
+            <p
+              className={`${
+                isMobile ? "text-xs" : "text-xs"
+              } text-muted-foreground truncate`}
+            >
               {playbackState.currentTrack.artists
                 .map((artist) => artist.name)
                 .join(", ")}
@@ -94,12 +112,12 @@ export const MusicPlayer: React.FC = () => {
               variant="ghost"
               size="sm"
               onClick={playbackState.isPlaying ? pause : () => play()}
-              className="w-8 h-8 p-0"
+              className={`${isMobile ? "w-7 h-7" : "w-8 h-8"} p-0`}
             >
               {playbackState.isPlaying ? (
-                <Pause className="w-4 h-4" />
+                <Pause className={`${isMobile ? "w-3 h-3" : "w-4 h-4"}`} />
               ) : (
-                <Play className="w-4 h-4" />
+                <Play className={`${isMobile ? "w-3 h-3" : "w-4 h-4"}`} />
               )}
             </Button>
 
@@ -107,19 +125,29 @@ export const MusicPlayer: React.FC = () => {
               variant="ghost"
               size="sm"
               onClick={() => setShowPlayer(false)}
-              className="w-6 h-6 p-0 opacity-60 hover:opacity-100"
+              className={`${
+                isMobile ? "w-5 h-5" : "w-6 h-6"
+              } p-0 opacity-60 hover:opacity-100`}
             >
-              <X className="w-3 h-3" />
+              <X className={`${isMobile ? "w-2 h-2" : "w-3 h-3"}`} />
             </Button>
           </div>
         </div>
 
         {/* Expanded View */}
         {isExpanded && (
-          <div className="mt-4 pt-4 border-t border-border/20 space-y-4">
+          <div
+            className={`mt-3 pt-3 border-t border-border/20 space-y-3 ${
+              isMobile ? "mt-2 pt-2 space-y-2" : ""
+            }`}
+          >
             {/* Progress Bar */}
-            <div className="space-y-2">
-              <div className="flex justify-between text-xs text-muted-foreground">
+            <div className="space-y-1 sm:space-y-2">
+              <div
+                className={`flex justify-between ${
+                  isMobile ? "text-xs" : "text-xs"
+                } text-muted-foreground`}
+              >
                 <span>{formatTime(playbackState.position)}</span>
                 <span>{formatTime(playbackState.duration)}</span>
               </div>
@@ -133,26 +161,32 @@ export const MusicPlayer: React.FC = () => {
             </div>
 
             {/* Full Controls */}
-            <div className="flex items-center justify-center space-x-4">
+            <div
+              className={`flex items-center justify-center ${
+                isMobile ? "space-x-3" : "space-x-4"
+              }`}
+            >
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={previousTrack}
-                className="w-8 h-8 p-0"
+                className={`${isMobile ? "w-7 h-7" : "w-8 h-8"} p-0`}
               >
-                <SkipBack className="w-4 h-4" />
+                <SkipBack className={`${isMobile ? "w-3 h-3" : "w-4 h-4"}`} />
               </Button>
 
               <Button
                 variant="default"
                 size="sm"
                 onClick={playbackState.isPlaying ? pause : () => play()}
-                className="w-10 h-10 p-0 rounded-full"
+                className={`${
+                  isMobile ? "w-8 h-8" : "w-10 h-10"
+                } p-0 rounded-full`}
               >
                 {playbackState.isPlaying ? (
-                  <Pause className="w-5 h-5" />
+                  <Pause className={`${isMobile ? "w-4 h-4" : "w-5 h-5"}`} />
                 ) : (
-                  <Play className="w-5 h-5" />
+                  <Play className={`${isMobile ? "w-4 h-4" : "w-5 h-5"}`} />
                 )}
               </Button>
 
@@ -160,26 +194,30 @@ export const MusicPlayer: React.FC = () => {
                 variant="ghost"
                 size="sm"
                 onClick={nextTrack}
-                className="w-8 h-8 p-0"
+                className={`${isMobile ? "w-7 h-7" : "w-8 h-8"} p-0`}
               >
-                <SkipForward className="w-4 h-4" />
+                <SkipForward
+                  className={`${isMobile ? "w-3 h-3" : "w-4 h-4"}`}
+                />
               </Button>
             </div>
 
-            {/* Volume Control */}
-            <div className="flex items-center space-x-2">
-              <Volume2 className="w-4 h-4 text-muted-foreground" />
-              <Slider
-                value={localVolume}
-                onValueChange={handleVolumeChange}
-                max={100}
-                step={1}
-                className="flex-1"
-              />
-              <span className="text-xs text-muted-foreground w-8 text-right">
-                {Math.round(localVolume[0])}%
-              </span>
-            </div>
+            {/* Volume Control - Hide on mobile to save space */}
+            {!isMobile && (
+              <div className="flex items-center space-x-2">
+                <Volume2 className="w-4 h-4 text-muted-foreground" />
+                <Slider
+                  value={localVolume}
+                  onValueChange={handleVolumeChange}
+                  max={100}
+                  step={1}
+                  className="flex-1"
+                />
+                <span className="text-xs text-muted-foreground w-8 text-right">
+                  {Math.round(localVolume[0])}%
+                </span>
+              </div>
+            )}
           </div>
         )}
       </div>

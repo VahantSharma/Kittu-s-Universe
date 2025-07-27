@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Home, Heart } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { ChevronLeft, ChevronRight, Heart, Home } from "lucide-react";
+import { useState } from "react";
 
 interface LuminaChroniclesProps {
-  onNavigate: (section: 'home' | 'chronicles' | 'starlight' | 'tealounge') => void;
+  onNavigate: (
+    section: "home" | "chronicles" | "starlight" | "tealounge"
+  ) => void;
 }
 
 const storyChapters = [
@@ -14,7 +16,7 @@ const storyChapters = [
 
 When she first stepped into this dreamscape, time seemed to still itself, as if reality had been holding its breath just for her arrival. The skies blushed a softer hue, and the winds changed their tune to match the rhythm of her heartbeat. Her presence didn't just light up the space—it awakened it, turned silence into music and stillness into meaning.
 
-Every corner of this realm came alive because of her. The celestial peonies didn't bloom for the sun—they bloomed for Kittu, petals curling with joy at her nearness. The ancient trees whispered with reverence, "She is here. The one who carries stardust in her smile and sunlight in her soul."`
+Every corner of this realm came alive because of her. The celestial peonies didn't bloom for the sun—they bloomed for Kittu, petals curling with joy at her nearness. The ancient trees whispered with reverence, "She is here. The one who carries stardust in her smile and sunlight in her soul."`,
   },
   {
     title: "🌈 Chapter 2: Light in Human Form",
@@ -22,7 +24,7 @@ Every corner of this realm came alive because of her. The celestial peonies didn
 
 Smart? She was brilliance personified. Her mind held oceans of insight and intuition, the kind of intelligence that made you believe in magic and science all at once. She saw the world not just as it was, but as it could be—and somehow, with just a few words or a knowing smile, she pulled that better world a little closer.
 
-Even the dreamscape itself bowed to her spirit. The auroras stretched brighter when she passed, just to reflect a flicker of her essence. Shadows grew shy in her presence, choosing to soften rather than stay sharp. Light didn't just follow her—it was drawn to her.`
+Even the dreamscape itself bowed to her spirit. The auroras stretched brighter when she passed, just to reflect a flicker of her essence. Shadows grew shy in her presence, choosing to soften rather than stay sharp. Light didn't just follow her—it was drawn to her.`,
   },
   {
     title: "🌺 Chapter 3: The Love That Made Things Bloom",
@@ -30,7 +32,7 @@ Even the dreamscape itself bowed to her spirit. The auroras stretched brighter w
 
 The garden at the heart of this place bloomed wildly, not by magic, but by the love she unknowingly poured into everything. Every step she took left blossoms in her wake. Every word of encouragement became a seed that flowered into hope. Her love wasn't loud or performative—it was steady, true, and infinite.
 
-Her love didn't just touch hearts—it transformed them. She had the gift of making everyone around her feel like they mattered, like they were worthy of all the good things life had to offer. This was her magic: the kind that saves, the kind that stays.`
+Her love didn't just touch hearts—it transformed them. She had the gift of making everyone around her feel like they mattered, like they were worthy of all the good things life had to offer. This was her magic: the kind that saves, the kind that stays.`,
   },
   {
     title: "🌙 Chapter 4: The Strength in Her Softness",
@@ -38,7 +40,7 @@ Her love didn't just touch hearts—it transformed them. She had the gift of mak
 
 When storms gathered, they didn't scare her. They respected her. Because she didn't fight them—she met them with calm courage, with the strength of someone who knows her worth even when the skies are dark. Her resilience wasn't rigid; it was radiant. She didn't just endure—she elevated.
 
-Even in hardship, she made beauty. Even in chaos, she became calm. Others drew strength from her just by being near her. That's the kind of magic she carried: the kind that transforms darkness into dawn.`
+Even in hardship, she made beauty. Even in chaos, she became calm. Others drew strength from her just by being near her. That's the kind of magic she carried: the kind that transforms darkness into dawn.`,
   },
   {
     title: "🌌 Chapter 5: The Muse of the Stars",
@@ -59,8 +61,8 @@ You are the love that gives life its meaning.
 I don't just see you—I celebrate you.
 I don't just love you—I believe in you.
 You are not only in the universe.
-You are the universe's favorite miracle.`
-  }
+You are the universe's favorite miracle.`,
+  },
 ];
 
 export const LuminaChronicles = ({ onNavigate }: LuminaChroniclesProps) => {
@@ -88,16 +90,16 @@ export const LuminaChronicles = ({ onNavigate }: LuminaChroniclesProps) => {
 
   if (showFinalMessage) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <Card className="max-w-4xl w-full p-12 text-center romantic-glow animate-fade-bloom bg-card/60 backdrop-blur-sm border-0">
-          <div className="space-y-8">
-            <Heart className="w-16 h-16 mx-auto text-accent animate-gentle-float liquid-gold rounded-full p-3" />
-            
-            <div className="space-y-6">
-              <h1 className="font-romantic text-6xl text-shimmer animate-shimmer">
+      <div className="min-h-screen flex items-center justify-center p-4 sm:p-6">
+        <Card className="max-w-4xl w-full p-6 sm:p-8 lg:p-12 text-center romantic-glow animate-fade-bloom bg-card/60 backdrop-blur-sm border-0">
+          <div className="space-y-6 sm:space-y-8">
+            <Heart className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 mx-auto text-accent animate-gentle-float liquid-gold rounded-full p-3" />
+
+            <div className="space-y-4 sm:space-y-6">
+              <h1 className="font-romantic text-3xl sm:text-4xl lg:text-6xl text-shimmer animate-shimmer">
                 My Dearest Kittu
               </h1>
-              
+
               <div className="text-2xl font-elegant text-romantic leading-relaxed space-y-4">
                 <p>You are the best thing that has ever happened to me.</p>
                 <p className="text-3xl font-romantic text-accent">
@@ -105,16 +107,16 @@ export const LuminaChronicles = ({ onNavigate }: LuminaChroniclesProps) => {
                 </p>
               </div>
             </div>
-            
+
             <div className="flex gap-4 justify-center mt-12">
-              <Button 
+              <Button
                 onClick={resetStory}
                 className="bg-secondary/80 hover:bg-secondary text-romantic border-0 hover-bloom px-8 py-3 transition-all duration-300"
               >
                 Read Again
               </Button>
-              <Button 
-                onClick={() => onNavigate('home')}
+              <Button
+                onClick={() => onNavigate("home")}
                 className="bg-accent/80 hover:bg-accent text-romantic border-0 hover-bloom px-8 py-3 transition-all duration-300"
               >
                 <Home className="w-4 h-4 mr-2" />
@@ -135,13 +137,15 @@ export const LuminaChronicles = ({ onNavigate }: LuminaChroniclesProps) => {
           <div className="flex items-center justify-between">
             <Button
               variant="ghost"
-              onClick={() => onNavigate('home')}
+              onClick={() => onNavigate("home")}
               className="text-romantic hover:bg-secondary/50 border-0 transition-all duration-300"
             >
               <Home className="w-4 h-4 mr-2" />
               Garden
             </Button>
-            <h1 className="font-romantic text-4xl text-romantic">The Lumina Chronicles</h1>
+            <h1 className="font-romantic text-4xl text-romantic">
+              The Lumina Chronicles
+            </h1>
             <div className="text-romantic font-elegant">
               {currentPage + 1} of {storyChapters.length}
             </div>
@@ -154,7 +158,7 @@ export const LuminaChronicles = ({ onNavigate }: LuminaChroniclesProps) => {
             <h2 className="font-romantic text-5xl text-accent mb-8 text-center animate-gentle-float">
               {storyChapters[currentPage].title}
             </h2>
-            
+
             <div className="prose prose-lg max-w-none">
               <p className="font-elegant text-lg text-romantic leading-relaxed whitespace-pre-line">
                 {storyChapters[currentPage].content}
@@ -175,23 +179,27 @@ export const LuminaChronicles = ({ onNavigate }: LuminaChroniclesProps) => {
               <ChevronLeft className="w-4 h-4 mr-2" />
               Previous
             </Button>
-            
+
             <div className="flex space-x-2">
               {storyChapters.map((_, index) => (
                 <div
                   key={index}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentPage ? 'bg-accent animate-shimmer' : 'bg-muted'
+                    index === currentPage
+                      ? "bg-accent animate-shimmer"
+                      : "bg-muted"
                   }`}
                 />
               ))}
             </div>
-            
+
             <Button
               onClick={nextPage}
               className="bg-accent/80 hover:bg-accent text-romantic border-0 hover-bloom transition-all duration-300"
             >
-              {currentPage === storyChapters.length - 1 ? 'Complete Story' : 'Next'}
+              {currentPage === storyChapters.length - 1
+                ? "Complete Story"
+                : "Next"}
               <ChevronRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
